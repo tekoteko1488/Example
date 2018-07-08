@@ -1,0 +1,143 @@
+﻿@model WebApplication.Models.FolderInfoAboutSub.ModelForInfo
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.getJSON("/InfoSub/MobileNumber/List", function (data) {
+                var items = "<option>------------------------------</option>";
+                $.each(data, function (i, nomer) {
+                    items += "<option value='" + nomer.Value + "'>" + nomer.Text + "</option>";
+                });
+                $("#Id_MobileNumber").html(items);
+            });
+
+            $("#Id_MobileNumber").change(function () {
+                $.getJSON("/InfoSub/InfoSubs/List/" + $("#Id_MobileNumber>option:selected").attr("value"), function (data) {
+                    var surname, name, patronymic, sex, dateofbirth;
+                    var dateofregistration, nameoftarif, balance, countofminute, countofMB, countofSMS, countofMMS, contractnumber;
+                    $.each(data, function (i, info) {
+                        surname = info.Surname;
+                        name = info.Name;
+                        patronymic = info.Patronymic;
+                        sex = info.Sex;
+                        dateofbirth = info.DateOfBirth;
+                        dateofregistration = info.DateOfRegistration;
+                        nameoftarif = info.NameOfTarif;
+                        balance = info.Balance;
+                        countofminute = info.CountOfMinute;
+                        countofMB = info.CountOfMB;
+                        countofSMS = info.CountOfSMS;
+                        countofMMS = info.CountOfMMS;
+                        contractnumber = info.ContractNumber;
+                    });
+                    $("#Surname").html(surname);
+                    $("#Name").html(name);
+                    $("#Patronymic").html(patronymic);
+                    $("#Sex").html(sex);
+                    $("#DateOfBirth").html(dateofbirth);
+                    $("#DateOfRegistration").html(dateofregistration);
+                    $("#NameOfTarif").html(nameoftarif);
+                    $("#Balance").html(balance);
+                    $("#CountOfMinute").html(countofminute);
+                    $("#CountOfMB").html(countofMB);
+                    $("#CountOfSMS").html(countofSMS);
+                    $("#CountOfMMS").html(countofMMS);
+                    $("#ContractNumber").html(contractnumber);
+                });
+            });
+
+            $("#Id_MobileNumber").change(function () {
+                $.getJSON("/InfoSub/NameOfService/List/" + $("#Id_MobileNumber>option:selected").attr("value"), function (data) {
+                    var items="<li>&&&&&</li>";
+                    $.each(data, function (i, info) {
+                        items += "<li>" + info.NameOfService + "</li>";
+                    });
+                    $("#Service").html(items);
+                }); 
+            });
+            
+        });
+    </script>
+    }
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/StyleSheet.css">
+</head>
+<body>
+@using (Html.BeginForm("Refill", "InfoSub", FormMethod.Post))
+{
+    <br />
+    <label for="Id_MobileNumber">Выберите номер мобильного телефона</label>
+    <br />
+    <select id="Id_MobileNumber" name="Id_MobileNumber"></select>
+    <br /> <br />
+    <button type="submit" name="action" value="Refill" class="default-button">Пополнить баланс</button>
+    <br /><br />
+    <button type="submit" name="action" value="ChangeTarif" class="default-button">Сменить тариф</button>
+    <br /> <br />
+    <button type="submit" name="action" value="ChangeService" class="default-button">Сменить услуги</button>
+    <br /> <br />
+    <button type="submit" name="action" value="TransferMoney" class="default-button">Перевести деньги</button>
+    <br /> <br />
+    <button type="submit" name="action" value="ViewingAccountHistory" class="default-button">Просмотр истории счёта</button>
+    <br /> <br />
+    <label>Номер счёта</label>
+    <br />
+    <label class="data-label" id="ContractNumber"></label>
+    <br />
+    <label>Фамилия</label>
+    <br />
+    <label class="data-label" id="Surname"></label>
+    <br />
+    <label>Имя</label>
+    <br />
+    <label class="data-label" id="Name"></label>
+    <br />
+    <label>Отчество</label>
+    <br />
+    <label class="data-label" id="Patronymic"></label>
+    <br />
+    <label>Пол</label>
+    <br />
+    <label class="data-label" id="Sex"></label>
+    <br />
+    <label>Дата рождения</label>
+    <br />
+    <label class="data-label" id="DateOfBirth"></label>
+    <br />
+    <label>Дата регистрации</label>
+    <br />
+    <label class="data-label" id="DateOfRegistration"></label>
+    <br />
+    <label>Название тарифа</label> 
+    <br />
+    <label class="data-label" id="NameOfTarif"></label>
+    <br />
+    <label>Баланс</label>
+    <br />
+    <label class="data-label" id="Balance"></label>
+    <br />
+    <label>Количество минут</label>
+    <br />
+    <label class="data-label" id="CountOfMinute"></label>
+    <br />
+    <label>Количество MB</label>
+    <br />
+    <label class="data-label" id="CountOfMB"></label>
+    <br />
+    <label>Количество SMS</label>
+    <br />
+    <label class="data-label" id="CountOfSMS"></label>
+    <br />
+    <label>Количество MMS</label>
+    <br />
+    <label class="data-label" id="CountOfMMS"></label>
+    <br />
+    <label>Список подключённых услуг</label>
+    <br />
+    <ul id="Service"></ul> 
+}
+</body>
+</html>
+
+

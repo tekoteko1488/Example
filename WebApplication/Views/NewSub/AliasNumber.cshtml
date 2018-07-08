@@ -1,0 +1,53 @@
+﻿@model WebApplication.Models.FolderForNewSub.AliasMobileNomberModel
+
+    <script type="text/javascript">
+        $(function () {
+            $.getJSON("/NewSub/Prestiges/List", function (data) {
+                var items = "<option>Выберите престиж номера</option>";
+                $.each(data, function (i, prestige) {
+                    items += "<option value='" + prestige.Value + "'>" + prestige.Text + "</option>";
+                });
+                $("#PrestigeCodeOfMobileNumber").html(items);
+            });
+
+            $("#PrestigeCodeOfMobileNumber").change(function () {
+                $.getJSON("/NewSub/MobileNumbers/List/" + $("#PrestigeCodeOfMobileNumber>option:selected").attr("value"), function (data) {
+                    var items = "<option>Выберите мобильный номер</option>";
+                    $.each(data, function (i, nomer) {
+                        items += "<option value='" + nomer.Value + "'>" + nomer.Text + "</option>";
+                    });
+                    $("#Id_MobileNumber").html(items);
+                });
+            });
+        });
+    </script>
+
+
+@using (Ajax.BeginForm("ConnectMobileNumber", "NewSub", new AjaxOptions() { UpdateTargetId = "place" }))
+{
+    <table margin-left="auto" style="width:70%; border-collapse: separate; border-spacing: 15px 14px;">
+        <tr>
+            <td align="left" width="40%" style="color:red;">@Html.ValidationMessageFor(m=>m.PrestigeCodeOfMobileNumber)</td>
+            <td align="left" width="40%" style="color:red;">@Html.ValidationMessageFor(m=>m.Id_MobileNumber)</td>
+        </tr>
+        <tr>
+            <th align="left" width="40%">@Html.LabelFor(m=>m.PrestigeCodeOfMobileNumber, "Выберите престиж номера")</th>
+            <th align="left" width="40%" style="margin-left:30px;">@Html.LabelFor(m=>m.Id_MobileNumber, "Выберите мобильный номер")</th>
+        </tr>
+        <tr>
+            <td align="left" width="40%">
+            @Html.DropDownListFor(m=>m.PrestigeCodeOfMobileNumber,Enumerable.Empty<SelectListItem>(),"Выберите престиж номера",
+           new { @data_val_number = "Выберите престиж номера" })</td>
+            <td align="left" width="40%" style="margin-left:30px;">
+            @Html.DropDownListFor(m=>m.Id_MobileNumber,Enumerable.Empty<SelectListItem>(), "Выберите мобильный номер",
+           new { @data_val_number = "Выберите мобильный номер" })</td>
+            <td align="center" width="20%"><button type="submit" id="ConnectTheNumber" class="default-button">Подключить номер телефона</button></td>
+        </tr>        
+        </table>
+        <hr style="width:auto;color:black;border:2px solid black;" />
+        <div id="place"></div>
+}
+
+@Scripts.Render("~/Scripts/jquery-1.10.2.min.js", "~/Scripts/jquery.unobtrusive-ajax.min.js", "~/Scripts/jquery.validate.min.js",
+    "~/Scripts/jquery.validate.unobtrusive.min.js")
+@Styles.Render("~/Content/StyleSheet.css")

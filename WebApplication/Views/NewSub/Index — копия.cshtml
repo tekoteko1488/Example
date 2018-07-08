@@ -1,0 +1,212 @@
+﻿@model WebApplication.Models.FolderForNewSub.ModelForNewSub
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(document).ready(function () {
+                $("#labelForId_Republic").hide();
+                $("#Id_Republic").hide();
+                $("#labelForId_CityOfBirth").hide();
+                $("#Id_CityOfBirth").hide();
+            });
+
+            $.getJSON("/NewSub/Regions/List", function (data) {
+                var items = "<option>-Выберите регион-</option>";
+                $.each(data, function (i, region) {
+                    items += "<option value='" + region.Value + "'>" + region.Text + "</option>";
+                });
+                $("#Id_Region").html(items);
+            });
+
+            $("#Id_Region").change(function () {
+                $.getJSON("/NewSub/Cities/List/" + $("#Id_Region>option:selected").attr("value"), function (data) {
+                    var items = "<option>-Выберите город-</option>";
+                    $.each(data, function (i, city) {
+                        items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
+                    });
+                    $("#Id_Street").empty();
+                    $("#Id_District").empty();
+                    $("#Id_City").html(items);
+                });
+            });
+
+            $("#Id_City").change(function () {
+                $.getJSON("/NewSub/Districts/List/" + $("#Id_City>option:selected").attr("value"), function (data) {
+                    var items = "<option>-Выберите район-</option>";
+                    $.each(data, function (i, distrinct) {
+                        items += "<option value='" + distrinct.Value + "'>" + distrinct.Text + "</option>";
+                    });
+                    $("#Id_Street").empty();
+                    $("#Id_District").html(items);
+                });
+            });
+
+            $("#Id_District").change(function () {
+                $.getJSON("/NewSub/Streets/List/" + $("#Id_District>option:selected").attr("value"), function (data) {
+                    var items = "<option>-Выберите улицу-</option>";
+                    $.each(data, function (i, street) {
+                        items += "<option value='" + street.Value + "'>" + street.Text + "</option>";
+                    });
+                    $("#Id_Street").html(items);
+                });
+            });
+
+            $.getJSON("/NewSub/Republics/List", function (data) {
+                var items = "<option>------------------------------------</option>";
+                $.each(data, function (i, republic) {
+                    items += "<option value='" + republic.Value + "'>" + republic.Text + "</option>";
+                });
+                $("#Id_Republic").html(items);
+            });
+
+            $("#Id_Republic").change(function () {
+                $.getJSON("/NewSub/USSRCities/List/" + $("#Id_Republic>option:selected").attr("value"), function (data) {
+                    var items = "<option>------------------------------</option>";
+                    $.each(data, function (i, USSRCity) {
+                        items += "<option value='" + USSRCity.Value + "'>" + USSRCity.Text + "</option>";
+                    });
+                    $("#Id_CityOfBirth").html(items);
+                });
+            });
+
+            $("#DateOfBirth").change(function (e) {
+                var date = new Date();
+                date = $("#DateOfBirth").val();
+                if (date > "1991.12.25") {
+                    $("#labelForId_Republic").show();
+                    $("#Id_Republic").show();
+                    $("#labelForId_CityOfBirth").show();
+                    $("#Id_CityOfBirth").show();
+                }                    
+            });
+
+            $("#Registration").click(function (e) {
+                var item;
+                $("#Region").empty();
+                $("#City").empty();
+                $("#District").empty();
+                $("#Street").empty();
+
+                item = $("#Id_Region").val();
+                if (item == '-Выберите регион-') {
+                    $("#Region").html("Выберите регион");
+                    e.preventDefault();
+                };
+
+                item = $("#Id_City").val();
+                if (item == '-Выберите город-') {
+                    $("#City").html("Выберите город");
+                    e.preventDefault();
+                };
+
+                item = $("#Id_District").val();
+                if (item == '-Выберите район-') {
+                    $("#District").html("Выберите район");
+                    e.preventDefault();
+                };
+
+                item = $("#Id_Street").val();
+                if (item == '-Выберите улицу-') {
+                    $("#Street").html("Выберите улицу");
+                    e.preventDefault();
+                };
+            });
+        });
+    </script>
+    }
+
+@{ 
+    ViewBag.Title = "Регистрация нового пользователя";
+}
+
+@{Html.EnableClientValidation();}
+@{Html.EnableUnobtrusiveJavaScript();}
+@using (Html.BeginForm("RegistrationNewSub", "NewSub", FormMethod.Post))
+{
+    <br />
+    <table margin-left="auto" style="width:100%; border-collapse: separate; border-spacing: 15px 10px;">
+        <tr>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model=>model.Surname)</th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model => model.Name)</th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model => model.Patronymic)</th>
+        </tr>
+        <tr>
+            <th align="left" style="width:33%;">@Html.LabelFor(m => m.Surname, "Фамилия")</th>
+            <th align="left" style="width:33%;">@Html.LabelFor(m => m.Name, "Имя")</th>
+            <th align="left" style="width:33%;">@Html.LabelFor(m => m.Patronymic, "Отчество")</th>
+        </tr>
+        <tr>
+            <th align="left">@Html.TextBoxFor(m => m.Surname)</th>
+            <th align="left">@Html.TextBoxFor(m => m.Name)</th>
+            <th align="left">@Html.TextBoxFor(m => m.Patronymic)</th>
+        </tr>
+        <tr>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model => model.Sex)</th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model => model.DateOfBirth)</th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model => model.PassportData)</th>
+        </tr>
+        <tr>
+            <th align="left" style="width:33%;">@Html.Label("Sex", "Пол")</th>
+            <th align="left" style="width:33%;">@Html.LabelFor(model => model.DateOfBirth, "Дата рождения")</th>
+            <th align="left" style="width:33%;">@Html.LabelFor(model => model.PassportData, "Паспортные данные")</th>
+        </tr>
+        <tr>
+            <th align="left">@Html.DropDownList("Sex", new List<SelectListItem> { new SelectListItem{Text="М", Value="М"},
+    new SelectListItem { Text = "Ж", Value = "Ж" } }, "*---*")</th>
+            <th align="left">@Html.EditorFor(model => model.DateOfBirth)</th>
+            <th align="left">@Html.TextBoxFor(model => model.PassportData, new { @type = "number" })</th>
+        </tr>
+        <tr>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;"><label id="Region"></label></th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;"><label id="City"></label></th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;"><label id="District"></label></th>
+        </tr>
+        <tr>
+            <th align="left" style="width:33%;"><label for="Id_Region">Регион</label></th>
+            <th align="left" style="width:33%;"><label for="Id_City">Город</label></th>
+            <th align="left" style="width:33%;"><label for="Id_District">Район</label></th>
+        </tr>
+        <tr>
+            @*<th align="left"><select id="Id_Region" name="Id_Region"></select></th>*@
+            <th align="left">@Html.DropDownListFor(m=>m.Id_Region,ViewBag.Region as SelectList,"Выберите регион")</th>
+            <th align="left"><select id="Id_City" name="Id_City"></select></th>
+            <th align="left"><select id="Id_District" name="Id_District"></select></th>
+        </tr>
+        <tr>
+            <th align="left" style="color:red; width:33%;"><label id="Street"></label></th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model => model.House)</th>
+        </tr>
+        <tr>
+            <th align="left" style="width:33%;"><label for="Id_Street">Улица</label></th>
+            <th align="left" style="width:33%;">@Html.LabelFor(model => model.House, "Дом")</th>
+            <th align="left" style="width:33%;">@Html.LabelFor(model => model.Housing, "Корпус")</th>
+        </tr>
+        <tr>
+            <th align="left"><select id="Id_Street" name="Id_Street"></select></th>
+            <th align="left">@Html.TextBoxFor(model => model.House)</th>
+            <th align="left">@Html.TextBoxFor(model => model.Housing)</th>
+        </tr>
+        <tr>
+            <th style="width:33%;"></th>
+            <th align="left" style="color:red; width:33%; text-wrap:normal;">@Html.ValidationMessageFor(model => model.Id_Worker)</th>
+        </tr>
+        <tr>
+            <th align="left" style="width:33%;">@Html.LabelFor(model => model.Apartment, "Квартира")</th>
+            <th align="left" style="width:33%;">@Html.LabelFor(model => model.Id_Worker, "Рабочий")</th>
+        </tr>
+        <tr>
+            <th align="left">@Html.TextBoxFor(model => model.Apartment)</th>
+            <th align="left">@Html.TextBoxFor(model => model.Id_Worker)</th>
+        </tr>
+        <tr>
+            <th align="left" style="width:33%;"><label for="Id_Republic" id="labelForId_Republic">Место рождения: Республика</label></th>
+            <th align="left" style="width:33%;"><label for="Id_CityOfBirth" id="labelForId_CityOfBirth">Место рождения: Город</label></th>
+        </tr>
+        <tr>
+            <th align="left"><select id="Id_Republic" name="Id_Republic"></select></th>
+            <th align="left"><select id="Id_CityOfBirth" name="Id_CityOfBirth"></select></th>
+        </tr>
+    </table>
+    <br /><br />
+    <input type="submit" value="Регистрация" id="Registration"/>
+}

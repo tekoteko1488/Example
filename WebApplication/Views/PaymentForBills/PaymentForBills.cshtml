@@ -1,0 +1,42 @@
+﻿
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#Apartment").click(function () {
+                $("#place").load('@Url.Action("Apartment", "PaymentForBills")');
+            });
+
+            $("#Electricity").click(function () {
+                $("#place").load('@Url.Action("Electricity", "PaymentForBills")');
+            });
+
+            $("#Telephone").click(function () {
+                $("#place").load('@Url.Action("Telephone", "PaymentForBills")');
+            });
+
+            $("#Internet").click(function () {
+                $("#place").load('@Url.Action("Internet", "PaymentForBills")');
+            });
+        });
+    </script>
+    }
+
+@{
+    ViewBag.Title = "Оплата счетов";
+}
+<br />
+<div>
+    <table margin-left="auto" style="width:90%; border-collapse: separate; border-spacing: 15px 10px;">
+        <tr>
+            <th align="left"><button id="Apartment">Квартплата</button></th>
+            <th align="left"><button id="Electricity">Электричество</button></th>
+        </tr>
+        <tr>
+            <th align="left"><button id="Telephone">Телефон</button></th>
+            <th align="left"><button id="Internet">Интернет</button></th>
+        </tr>
+    </table>
+</div>
+<hr style="width:auto;color:black;border:2px solid black;" />
+<div id="place"></div>
+

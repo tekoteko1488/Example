@@ -1,0 +1,22 @@
+﻿@model WebApplication.Models.FolderForTransferMoney.ModelForTransferMoneyToBankCard
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm("ResultOfTransferMoneyToBankCard", "TransferMoney", FormMethod.Post))
+{
+    <br />
+    @Html.DisplayNameFor(model=>model.BankCardAddressee)
+    <br />
+    @Html.TextBoxFor(model => model.BankCardAddressee)
+    @Html.ValidationMessageFor(model=>model.BankCardAddressee)
+    <br /><br />
+    @Html.DisplayNameFor(model=>model.Sum)
+    <br />
+    @Html.TextBoxFor(model => model.Sum)
+    @Html.ValidationMessageFor(model=>model.Sum)
+    <br /><br />
+    <button type="submit">Перевести деньги</button>
+    <br /><br>
+}
+

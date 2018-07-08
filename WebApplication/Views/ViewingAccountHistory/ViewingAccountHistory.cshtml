@@ -1,0 +1,216 @@
+﻿
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#Replenishment").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryReplenishment/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " счёт был пополнен на: " + info.Summa + " рублей" + "</li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " счёт был пополнен на: " + info.Summa + " рублей" + "</li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Со счёта ничего не списывалось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+
+            $("#Withdrawal").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryWithdrawal/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa + " рублей" + "</li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa + " рублей" + "</li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Со счёта ничего не списывалось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+
+            $("#ToBankCardOutComing").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryBankCard/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено на банковскую карту под номером " +  info.NumberOfBankCard + "</li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено на банковскую карту под номером " + info.NumberOfBankCard + "</li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Переводов не осуществлялось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+
+            $("#ToMobileNumberOutcoming").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryMobileNumberAddressee/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено на номер " + info.MobileNumberAddressee + "</li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено на банковскую карту под номером " + info.MobileNumberAddressee + "</li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Переводов не осуществлялось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+
+            $("#PaymentForApartment").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryPaymentForTheApartment/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за квартиру " + "</li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за квартиру " + "</li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Переводов не осуществлялось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+
+            $("#PaymentForElectricity").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryPaymentForElectricity/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за электричество " + "</li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за электричество " + "</li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Переводов не осуществлялось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+
+            $("#PaymentForTelephone").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryPaymentForTelephone/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за домашний телефон </li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за домашний телефон </li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Переводов не осуществлялось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+
+            $("#PaymentForInternet").click(function () {
+                $.getJSON("/ViewingAccountHistory/AccountHistoryPaymentForInternet/List", function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за интернет </li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.DateAndTime + " со счёта было списано: " + info.Summa +
+                                " рублей и переведено как оплата за интернет </li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Переводов не осуществлялось</li>";
+                    }
+                    $("#list").html(items);
+                });
+            });
+        });
+    </script>
+    }
+
+
+@{ ViewBag.Title = "История счёта";}
+
+<br />
+<table margin-left="auto" style="width:100%; border-collapse: separate; border-spacing: 15px 10px;">
+    <tr style="border-spacing:30px 50px;">
+        <td width="50%"><button id="Replenishment" class="default-button">История пополнения счёта</button></td>
+        <td width="50%"><button id="ToMobileNumberOutcoming" class="default-button">История перевода средств на мобильные телефоны</button></td>
+    </tr>
+    <tr style="border-spacing:30px 50px;">
+        <td width="50%"><button id="Withdrawal" class="default-button">История списывания со счёта</button></td>
+        <td width="50%"><button id="ToBankCardOutComing" class="default-button">История перевода средств на банковские карты</button></td>
+    </tr>
+    <tr style="border-spacing:30px 50px;">
+        <td width="50%"><button id="PaymentForApartment" class="default-button">История оплаты за квартиру</button></td>
+        <td width="50%"><button id="PaymentForElectricity" class="default-button">История оплаты электричества</button></td>
+    </tr>
+    <tr style="border-spacing:30px 50px;">
+        <td width="50%"><button id="PaymentForTelephone" class="default-button">История оплаты домашнего телефона</button></td>
+        <td width="50%"><button id="PaymentForInternet" class="default-button">История оплаты интернета</button></td>
+    </tr>
+</table>
+<hr style="width:auto;color:black;border:2px solid black;" />
+<br /><br />
+<ul id="list" style="height:240px; overflow:auto;border:2px solid black;"></ul>
+<br /><br />
+<p>@Html.ActionLink("Переход в профиль", "Info", "InfoSub")</p>
+
+

@@ -1,0 +1,228 @@
+﻿@model WebApplication.Models.TarifDescriptionModel
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.getJSON("/InfoSub/ChangeTarifJSON/List", function (data) {
+               var items = "<option>------------------------------</option>";
+               $.each(data, function (i, info) {
+                   items += "<option value='" + info.Value + "'>" + info.Text + "</option>";
+               });
+               $("#Id_Tarif").html(items);
+            });
+
+            $("#Id_Tarif").change(function () {
+                $.getJSON("/InfoSubChangeTarif/DescriptionOfTarif/" + $("#Id_Tarif>option:selected").attr("value"), function (data) {
+                    var subscriptionFee, price, InternetPackagePerMonthMB, CallsToTele2PhonesFromHomeRegion,
+                        CallsToTele2PhonesInRussia, CallsToPhonesOfOtherHomeRegionOperators,
+                        InTripsAroundTheRussiaIncoming, InTripsToRussiaOutgoing, SMSToHomeRegionPhones,
+                        SMSWhenTravelingInRussiaOutgoingToTheHomeRegion, Additional500MBOfTraffic, Additional100MBOfTraffic,
+                        Additional10MBOfTraffic, FirstMBPerDay, Additional1MBOfTraffic, OnTele2PhonesOfHomeRegionInAMinute,
+                        OnTele2PhonesOfRussiaInAMinute, ForOtherPhonesInYourHomeRegionInAMinute, OnOtherPhonesOfTheRussiaInAMinute,
+                        InTheCISInAMinute, ToEuropeAndTheBalticStatesInAMinute, InOtherCountriesInAMinute, SatelliteCommunicationInAMinute,
+                        SMSInTheHomeRegionToAllPhonesInTheHomeRegion, SMSInTheHomeRegionToAllPhonesOfTheRussia,
+                        MMSInTheHomeRegionToAllPhonesOfTheRussia, InTheHomeRegionSMSToTele2PhonesOfHomeRegion,
+                        MMSToAllPhonesOfTheRussia, SMSToAllPhonesOfTheRussia, CountOfMinute, CountOfSMS, CountOfMMS;
+
+                    subscriptionFee = data.SubscriptionFee;
+                    price = data.Price;
+                    InternetPackagePerMonthMB = data.InternetPackagePerMonthMB;
+                    CallsToTele2PhonesFromHomeRegion = data.CallsToTele2PhonesFromHomeRegion;
+                    CallsToTele2PhonesInRussia = data.CallsToTele2PhonesInRussia;
+                    CallsToPhonesOfOtherHomeRegionOperators = data.CallsToPhonesOfOtherHomeRegionOperators;
+                    InTripsAroundTheRussiaIncoming = data.InTripsAroundTheRussiaIncoming;
+                    InTripsToRussiaOutgoing = data.InTripsToRussiaOutgoing;
+                    SMSToHomeRegionPhones = data.SMSToHomeRegionPhones;
+                    SMSWhenTravelingInRussiaOutgoingToTheHomeRegion = data.SMSWhenTravelingInRussiaOutgoingToTheHomeRegion;
+                    Additional500MBOfTraffic = data.Additional500MBOfTraffic;
+                    Additional100MBOfTraffic = data.Additional100MBOfTraffic;
+                    Additional10MBOfTraffic = data.Additional10MBOfTraffic;
+                    FirstMBPerDay = data.FirstMBPerDay;
+                    Additional1MBOfTraffic = data.Additional1MBOfTraffic;
+                    OnTele2PhonesOfHomeRegionInAMinute = data.OnTele2PhonesOfHomeRegionInAMinute;
+                    OnTele2PhonesOfRussiaInAMinute = data.OnTele2PhonesOfRussiaInAMinute;
+                    ForOtherPhonesInYourHomeRegionInAMinute = data.ForOtherPhonesInYourHomeRegionInAMinute;
+                    OnOtherPhonesOfTheRussiaInAMinute = data.OnOtherPhonesOfTheRussiaInAMinute;
+                    InTheCISInAMinute = data.InTheCISInAMinute;
+                    ToEuropeAndTheBalticStatesInAMinute = data.ToEuropeAndTheBalticStatesInAMinute;
+                    InOtherCountriesInAMinute = data.InOtherCountriesInAMinute;
+                    SatelliteCommunicationInAMinute = data.SatelliteCommunicationInAMinute;
+                    SMSInTheHomeRegionToAllPhonesInTheHomeRegion = data.SMSInTheHomeRegionToAllPhonesInTheHomeRegion;
+                    SMSInTheHomeRegionToAllPhonesOfTheRussia = data.SMSInTheHomeRegionToAllPhonesOfTheRussia;
+                    MMSInTheHomeRegionToAllPhonesOfTheRussia = data.MMSInTheHomeRegionToAllPhonesOfTheRussia;
+                    InTheHomeRegionSMSToTele2PhonesOfHomeRegion = data.InTheHomeRegionSMSToTele2PhonesOfHomeRegion;
+                    MMSToAllPhonesOfTheRussia = data.MMSToAllPhonesOfTheRussia;
+                    SMSToAllPhonesOfTheRussia = data.SMSToAllPhonesOfTheRussia;
+                    CountOfMinute = data.CountOfMinute;
+                    CountOfSMS = data.CountOfSMS;
+                    CountOfMMS = data.CountOfMMS;
+
+                    $("#SubscriptionFee").html(subscriptionFee);
+                    $("#Price").html(price);
+                    $("#InternetPackagePerMonth").html(InternetPackagePerMonthMB);
+                    $("#CallsToTele2PhonesFromHomeRegion").html(CallsToTele2PhonesFromHomeRegion);
+                    $("#CallsToTele2PhonesInRussia").html(CallsToTele2PhonesInRussia);
+                    $("#CallsToPhonesOfOtherHomeRegionOperators").html(CallsToPhonesOfOtherHomeRegionOperators);
+                    $("#InTripsAroundTheRussiaIncoming").html(InTripsAroundTheRussiaIncoming);
+                    $("#InTripsToRussiaOutgoing").html(InTripsToRussiaOutgoing);
+                    $("#SMSToHomeRegionPhones").html(SMSToHomeRegionPhones);
+                    $("#SMSWhenTravelingInRussiaOutgoingToTheHomeRegion").html(SMSWhenTravelingInRussiaOutgoingToTheHomeRegion);
+                    $("#Additional500MBOfTraffic").html(Additional500MBOfTraffic);
+                    $("#Additional100MBOfTraffic").html(Additional100MBOfTraffic);
+                    $("#Additional10MBOfTraffic").html(Additional10MBOfTraffic);
+                    $("#FirstMBPerDay").html(FirstMBPerDay);
+                    $("#Additional1MBOfTraffic").html(Additional1MBOfTraffic);
+                    $("#OnTele2PhonesOfHomeRegionInAMinute").html(OnTele2PhonesOfHomeRegionInAMinute);
+                    $("#OnTele2PhonesOfRussiaInAMinute").html(OnTele2PhonesOfRussiaInAMinute);
+                    $("#ForOtherPhonesInYourHomeRegionInAMinute").html(ForOtherPhonesInYourHomeRegionInAMinute);
+                    $("#OnOtherPhonesOfTheRussiaInAMinute").html(OnOtherPhonesOfTheRussiaInAMinute);
+                    $("#InTheCISInAMinute").html(InTheCISInAMinute);
+                    $("#ToEuropeAndTheBalticStatesInAMinute").html(ToEuropeAndTheBalticStatesInAMinute);
+                    $("#InOtherCountriesInAMinute").html(InOtherCountriesInAMinute);
+                    $("#SatelliteCommunicationInAMinute").html(SatelliteCommunicationInAMinute);
+                    $("#SMSInTheHomeRegionToAllPhonesInTheHomeRegion").html(SMSInTheHomeRegionToAllPhonesInTheHomeRegion);
+                    $("#SMSInTheHomeRegionToAllPhonesOfTheRussia").html(SMSInTheHomeRegionToAllPhonesOfTheRussia);
+                    $("#MMSInTheHomeRegionToAllPhonesOfTheRussia").html(MMSInTheHomeRegionToAllPhonesOfTheRussia);
+                    $("#InTheHomeRegionSMSToTele2PhonesOfHomeRegion").html(InTheHomeRegionSMSToTele2PhonesOfHomeRegion);
+                    $("#MMSToAllPhonesOfTheRussia").html(MMSToAllPhonesOfTheRussia);
+                    $("#SMSToAllPhonesOfTheRussia").html(SMSToAllPhonesOfTheRussia);
+                    $("#CountOfMinute").html(CountOfMinute);
+                    $("#CountOfSMS").html(CountOfSMS);
+                    $("#CountOfMMS").html(CountOfMMS);
+                });
+            });
+        });
+    </script>
+    }
+
+@{ 
+    ViewBag.Title = "Сменить тариф";
+}
+
+
+    @using (Html.BeginForm("UpdateTheTarif", "InfoSubChangeTarif", FormMethod.Post))
+    {
+        <br />
+        <label for="Id_Tarif">Выберите тариф</label>
+        <select id="Id_Tarif" name="Id_Tarif"></select>
+        <input type="submit" value="Выбрать тариф" />
+        <br />
+        <hr style="width:auto;color:black;border:2px solid black;" />
+        <table margin-left="auto" style="width:100%; border-collapse: separate; border-spacing: 15px 10px;">
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.SubscriptionFee)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.Price)</th>
+            </tr>
+            <tr>
+                <th align="left" id="SubscriptionFee" style="color:forestgreen;"></th>
+                <th align="left" id="Price" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model=>model.CountOfMinute)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.InternetPackagePerMonthMB)</th>
+                <th align="left">@Html.DisplayNameFor(model=>model.CountOfSMS)</th>
+                <th align="left">@Html.DisplayNameFor(model=>model.CountOfMMS)</th>
+            </tr>
+            <tr>
+                <th align="left" id="CountOfMinute" style="color:forestgreen;"></th>
+                <th align="left" id="InternetPackagePerMonth" style="color:forestgreen;"></th>
+                <th align="left" id="CountOfSMS" style="color:forestgreen;"></th>
+                <th align="left" id="CountOfMMS" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.CallsToTele2PhonesFromHomeRegion)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.CallsToTele2PhonesInRussia)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.CallsToPhonesOfOtherHomeRegionOperators)</th>
+            </tr>
+            <tr>
+                <th align="left" id="CallsToTele2PhonesFromHomeRegion" style="color:forestgreen;"></th>
+                <th align="left" id="CallsToTele2PhonesInRussia" style="color:forestgreen;"></th>
+                <th align="left" id="CallsToPhonesOfOtherHomeRegionOperators" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.InTripsAroundTheRussiaIncoming)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.InTripsToRussiaOutgoing)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.OnTele2PhonesOfHomeRegionInAMinute)</th>
+            </tr>
+            <tr>
+                <th align="left" id="InTripsAroundTheRussiaIncoming" style="color:forestgreen;"></th>
+                <th align="left" id="InTripsToRussiaOutgoing" style="color:forestgreen;"></th>
+                <th align="left" id="OnTele2PhonesOfHomeRegionInAMinute" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.OnTele2PhonesOfRussiaInAMinute)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.ForOtherPhonesInYourHomeRegionInAMinute)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.OnOtherPhonesOfTheRussiaInAMinute)</th>
+            </tr>
+            <tr>
+                <th align="left" id="OnTele2PhonesOfRussiaInAMinute" style="color:forestgreen;"></th>
+                <th align="left" id="ForOtherPhonesInYourHomeRegionInAMinute" style="color:forestgreen;"></th>
+                <th align="left" id="OnOtherPhonesOfTheRussiaInAMinute" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.InTheCISInAMinute)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.ToEuropeAndTheBalticStatesInAMinute)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.InOtherCountriesInAMinute)</th>
+            </tr>
+            <tr>
+                <th align="left" id="InTheCISInAMinute" style="color:forestgreen;"></th>
+                <th align="left" id="ToEuropeAndTheBalticStatesInAMinute" style="color:forestgreen;"></th>
+                <th align="left" id="InOtherCountriesInAMinute" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.SatelliteCommunicationInAMinute)</th>
+            </tr>
+            <tr>
+                <th align="left" id="SatelliteCommunicationInAMinute" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.Additional500MBOfTraffic)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.Additional100MBOfTraffic)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.Additional10MBOfTraffic)</th>
+            </tr>
+            <tr>
+                <th align="left" id="Additional500MBOfTraffic" style="color:forestgreen;"></th>
+                <th align="left" id="Additional100MBOfTraffic" style="color:forestgreen;"></th>
+                <th align="left" id="Additional10MBOfTraffic" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.FirstMBPerDay)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.Additional1MBOfTraffic)</th>
+            </tr>
+            <tr>
+                <th align="left" id="FirstMBPerDay" style="color:forestgreen;"></th>
+                <th align="left" id="Additional1MBOfTraffic" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.SMSToHomeRegionPhones)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.SMSWhenTravelingInRussiaOutgoingToTheHomeRegion)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.SMSInTheHomeRegionToAllPhonesInTheHomeRegion)</th>
+            </tr>
+            <tr>
+                <th align="left" id="SMSToHomeRegionPhones" style="color:forestgreen;"></th>
+                <th align="left" id="SMSWhenTravelingInRussiaOutgoingToTheHomeRegion" style="color:forestgreen;"></th>
+                <th align="left" id="SMSInTheHomeRegionToAllPhonesInTheHomeRegion" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.SMSInTheHomeRegionToAllPhonesOfTheRussia)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.InTheHomeRegionSMSToTele2PhonesOfHomeRegion)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.SMSToAllPhonesOfTheRussia)</th>
+            </tr>
+            <tr>
+                <th align="left" id="SMSInTheHomeRegionToAllPhonesOfTheRussia" style="color:forestgreen;"></th>
+                <th align="left" id="InTheHomeRegionSMSToTele2PhonesOfHomeRegion" style="color:forestgreen;"></th>
+                <th align="left" id="SMSToAllPhonesOfTheRussia" style="color:forestgreen;"></th>
+            </tr>
+            <tr>
+                <th align="left">@Html.DisplayNameFor(model => model.MMSInTheHomeRegionToAllPhonesOfTheRussia)</th>
+                <th align="left">@Html.DisplayNameFor(model => model.MMSToAllPhonesOfTheRussia)</th>
+            </tr>
+            <tr>
+                <th align="left" id="MMSInTheHomeRegionToAllPhonesOfTheRussia" style="color:forestgreen;"></th>
+                <th align="left" id="MMSToAllPhonesOfTheRussia" style="color:forestgreen;"></th>
+            </tr>
+        </table>           
+    }    
+
+
+

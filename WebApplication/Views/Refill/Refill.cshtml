@@ -1,0 +1,22 @@
+﻿@model WebApplication.Models.FolderForRefill.ModelForRefill
+
+@{ ViewBag.Title = "Пополнение счёта";}
+
+@using (Ajax.BeginForm("RefillBalance", "Refill", new AjaxOptions() { UpdateTargetId = "Fine" }))
+{
+    <br />
+    <table margin-left="auto" style="width:60%; border-collapse: separate; border-spacing: 10px 5px;">
+        <tr>
+            <td align="left" width="20%">@Html.Label("Пополнить счёт на: ")</td>
+            <td align="left" width="10%">@Html.TextBoxFor(m => m.Summa)</td>
+            <td align="left" width="30%"><button type="button" id="Refill" class="default-button">Пополнить баланс</button></td>
+        </tr>
+    </table>
+    <hr style="width:auto;color:black;border:2px solid black;" />
+    <div id="Fine"></div>
+}
+
+@Html.Partial("_Scripts")
+
+
+

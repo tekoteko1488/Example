@@ -1,0 +1,33 @@
+﻿
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#AliasNumber").click(function () {
+                $("#option").load("@Url.Action("AliasNumberPartialView", "NewSub")");
+            });
+
+            $("#AlienNumber").click(function () {
+                $("#option").load("@Url.Action("AlienNumberPartialView", "NewSub")");
+            });
+        });
+    </script>
+    }
+
+@{ 
+    ViewBag.Title = "NumberOfMobilePhone";
+}
+
+
+<h2>@ViewBag.Surname @ViewBag.Name @ViewBag.Patronymic успешно @ViewBag.Sex</h2>
+<hr style="width:auto;color:black;border:2px solid black;" />
+<div style="display:inline-block;">
+    <button id="AliasNumber" class="default-button" style="margin-right:30px;">Подключить номер</button>
+    <button id="AlienNumber" class="default-button">Подключить номер другого оператора</button>
+</div>
+<hr style="width:auto;color:black;border:2px solid black;" />
+<div id="option"></div>
+
+ 
+
+

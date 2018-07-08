@@ -1,0 +1,27 @@
+﻿@model WebApplication.Models.FolderForNewSub.AlienMobileNumberModel
+
+@*Осуществить проверку на наличие номера в БД*@
+@using (Ajax.BeginForm("ConnectAlienMobileNumber", "NewSub", new AjaxOptions() { UpdateTargetId = "place" }))
+{
+    <table margin-left="auto" style="width:60%; border-collapse: separate; border-spacing: 15px 14px;">
+        <tr>
+            <td align="left" style="color:red;">@Html.ValidationMessageFor(m => m.AlienMobileNumber)</td>
+        </tr>
+        <tr>
+            <th align="left">@Html.LabelFor(m => m.AlienMobileNumber, "Введите принадлежащий вам мобильный номер, другого оператора")</th>
+        </tr>
+        <tr>
+            <td align="left">@Html.EditorFor(m => m.AlienMobileNumber)</td>
+            <td align="left"><button type="submit" class="default-button">Подключить номер телефона</button></td>
+        </tr>
+    </table>
+
+        <hr style="width:auto;color:black;border:2px solid black;" />
+        <div id="place"></div>
+
+}
+
+@Scripts.Render("~/Scripts/jquery-1.10.2.min.js", "~/Scripts/jquery.unobtrusive-ajax.min.js", "~/Scripts/jquery.validate.min.js",
+    "~/Scripts/jquery.validate.unobtrusive.min.js")
+@Styles.Render("~/Content/StyleSheet.css")
+

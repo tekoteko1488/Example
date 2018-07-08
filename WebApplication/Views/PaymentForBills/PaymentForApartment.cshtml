@@ -1,0 +1,20 @@
+﻿@model WebApplication.Models.FolderForPayment.ModelForPayment
+
+<script src='@Url.Content("~/Scripts/jquery-1.10.2.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")' type="text/javascript"></script>
+@{Html.EnableClientValidation();}
+@{Html.EnableUnobtrusiveJavaScript();}
+@using(Ajax.BeginForm("ApartmentPay", "PaymentForBills", new AjaxOptions() { UpdateTargetId = "Confirmation" },FormMethod.Post))
+{
+    <div style="display:inline-block;">
+        <p>Сумма платежа: @Html.TextBoxFor(model => model.Payment,new { type="numeric"})</p>
+        <p style="color:red;">@Html.ValidationMessageFor(model=>model.Payment)</p>
+        <br />
+        <p><button id="Pay">Заплатить за квартиру</button></p>
+    </div>
+}
+<br />
+<div>
+    <div id="Confirmation"></div>
+</div>

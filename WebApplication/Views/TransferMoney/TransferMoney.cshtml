@@ -1,0 +1,36 @@
+﻿
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#ToBankCard").click(function () {
+                $("#place").load('@Url.Action("PartialForBankCard", "TransferMoney")');
+            });
+            $("#ToMobileNumber").click(function () {
+                $("#place").load('@Url.Action("PartialForMobileNumber", "TransferMoney")');
+            });
+        });
+    </script>
+    }
+
+<html>
+<head>
+    <title>Перевод денег</title>
+    <meta charset="utf-8" />
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body>
+    <br /><br />
+    <div>
+        <div id="ToBankCard"  style="display:inline-block; background-color:lightblue">
+            <img src="~/Content/images/bank-card.png"/> На банковскую карту
+        </div>
+        <div id="ToMobileNumber"  style="display:inline-block; margin-left:50px; background-color:lawngreen">
+            <img src="~/Content/images/mobile.png"/> На мобильный телефон
+        </div>
+    </div>
+    <br /><br />
+    <div id="place"></div>
+</body>
+</html>
+

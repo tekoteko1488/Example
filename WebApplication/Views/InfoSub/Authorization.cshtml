@@ -1,0 +1,216 @@
+﻿@model WebApplication.Models.FolderInfoAboutSub.ModelForAutorization
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(document).ready(function () {
+                $("#load_passport").hide();
+            });
+
+            var item = 0;
+            $("#PassportData").keyup(function () {
+                item = $("#PassportData").val().length;
+                var PassportData = $("#PassportData").val();
+                if (item == 10) {
+                    $("#load_passport").show();
+                    var wait = "<option>Ждите</option>";
+                    $("#Id_MobileNumber").html(wait);
+
+                    $.ajax({
+                        url: '@Url.Action("CheckPassportData")/' + PassportData,
+                        success: function (data) {
+                            var items = "<option>Выберите мобильный номер</option>";
+                            var count = 0;
+                            $.each(data, function (i, nomer) {
+                                items += "<option value='" + nomer.Value + "'>" + nomer.Text + "</option>";
+                                count += 1;
+                            });
+                            if (count == 0) {
+                                items = "<option>Нет подключенных номеров</option>";
+                            }
+                            $("#Id_MobileNumber").html(items);
+                            $("#load_passport").hide();
+                        },
+                        failure: function (data) {
+                            alert("Ошибка на стороне сервера");
+                            $("#load_passport").hide();
+                        }
+                    });
+                };
+            });
+
+            $("#Id_MobileNumber").change(function () {
+                $("#Service").empty();
+                $.getJSON("/InfoSub/InfoSubs/List/" + $("#Id_MobileNumber>option:selected").attr("value") + "/" + $("#PassportData").val(),function (data) {
+                    var surname, name, patronymic, sex, dateofbirth, dateofregistration, nameoftarif, balance, countofminute, countofMB,
+                        countofSMS, countofMMS, contractnumber;
+                    $.each(data, function (i, info) {
+                        surname = info.Surname;
+                        name = info.Name;
+                        patronymic = info.Patronymic;
+                        sex = info.Sex;
+                        dateofbirth = info.DateOfBirth;
+                        dateofregistration = info.DateOfRegistration;
+                        nameoftarif = info.NameOfTarif;
+                        balance = info.Balance;
+                        countofminute = info.CountOfMinute;
+                        countofMB = info.CountOfMB;
+                        countofSMS = info.CountOfSMS;
+                        countofMMS = info.CountOfMMS;
+                        contractnumber = info.ContractNumber;
+                    });
+                    $("#Surname").html(surname);
+                    $("#Name").html(name);
+                    $("#Patronymic").html(patronymic);
+                    $("#Sex").html(sex);
+                    $("#DateOfBirth").html(dateofbirth);
+                    $("#DateOfRegistration").html(dateofregistration);
+                    $("#NameOfTarif").html(nameoftarif);
+                    $("#Balance").html(balance);
+                    $("#CountOfMinute").html(countofminute);
+                    $("#CountOfMB").html(countofMB);
+                    $("#CountOfSMS").html(countofSMS);
+                    $("#CountOfMMS").html(countofMMS);
+                    $("#ContractNumber").html(contractnumber);
+                });
+
+                $.getJSON("/InfoSub/ServicesConnectedByUser/List/" + $("#Id_MobileNumber>option:selected").attr("value"), function (data) {
+                    var items;
+                    var count = 0;
+                    $.each(data, function (i, info) {
+                        if (i == 0) {
+                            items = "<li>" + "  " + info.NameOfService + "</li>";
+                            count += 1;
+                        }
+                        else {
+                            items += "<li>" + "  " + info.NameOfService + "</li>";
+                            count += 1;
+                        }
+                    });
+                    if (count == 0) {
+                        items = "<li>  Нет подключённых услуг</li>";
+                    }
+                    $("#Service").html(items);
+                });
+
+            });
+
+            $("#PassportData").change(function () {
+                //$("#Id_MobileNumber").empty();
+                if (item != 10) {     
+                    $("#Surname").empty();
+                    $("#Name").empty();
+                    $("#Patronymic").empty();
+                    $("#Sex").empty();
+                    $("#DateOfBirth").empty();
+                    $("#DateOfRegistration").empty();
+                    $("#NameOfTarif").empty();
+                    $("#Balance").empty();
+                    $("#CountOfMinute").empty();
+                    $("#CountOfMB").empty();
+                    $("#CountOfSMS").empty();
+                    $("#CountOfMMS").empty();
+                    $("#ContractNumber").empty();
+                    $("#Service").empty();
+                }
+            });
+        });
+    </script>
+    }
+
+@{
+    ViewBag.Title = "Информация об абоненте";
+} 
+
+<br />
+@using (Html.BeginForm("Refill", "InfoSub", FormMethod.Post))
+{
+    <table margin-left="auto" style="width:80%; border-collapse: separate; border-spacing: 10px 5px;">
+        <tr>
+            <td align="left" width="40%" style="color:red;">@Html.ValidationMessageFor(m=>m.PassportData)</td>
+            <td align="left" width="40%" style="color:red;">@Html.ValidationMessageFor(m => m.Id_MobileNumber)</td>
+        </tr>
+        <tr>
+            <th align="left" width="40%"><label>Введите паспортные данные абонента</label></th>
+            <th align="left" width="40%"><label>Выберите номер мобильного телефона</label></th>
+        </tr>
+        <tr>
+            <td align="left" width="40%">@Html.TextBoxFor(m => m.PassportData)</td>
+            <td align="left" width="40%">@Html.DropDownListFor(m => m.Id_MobileNumber, Enumerable.Empty<SelectListItem>(), "Введите паспортные данные",
+                                        new { data_val_number = "Выберите мобильный номер" })
+            <span id="load_passport"><img src="~/Content/gifs/load.gif" /></span>
+            </td>
+        </tr>
+    </table>
+    <hr style="width:auto;color:black;border:2px solid black;" />
+    <table margin-left="auto" style="width:90%; border-collapse: separate; border-spacing: 15px 10px;">
+        <tr>
+            <td align="center" width="30%">
+            <button type="submit" name="action" value="Refill" class="default-button" style="width:100%;height:auto;">Пополнить баланс</button>
+            </td>
+            <td align="center" width="30%">
+            <button type="submit" name="action" value="ChangeTarif" class="default-button" style="width:100%;height:auto;">Сменить тариф</button>
+            </td>
+            <td align="center" width="30%"> 
+                <button type="submit" name="action" value="ChangeService" class="default-button" style="width:100%;height:auto;">Сменить услуги</button>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" width="30%">
+                <button type="submit" name="action" value="TransferMoney" class="default-button" style="width:100%;height:auto;">Перевести деньги</button>
+            </td>
+            <td align="center" width="30%">
+                <button type="submit" name="action" value="ViewingAccountHistory" class="default-button" style="width:100%;height:auto;">Просмотр истории</button>
+            </td>
+            <td align="center" width="30%">
+                <button type="submit" name="action" value="PaymentForBills" class="default-button" style="width:100%;height:auto;">Оплатить счета</button>
+            </td>
+        </tr>
+    </table>
+}
+    <hr style="width:auto;color:black;border:2px solid black;" />
+    <table margin-left="auto" style="width:90%; border-collapse: separate; border-spacing: 15px 10px;">
+        <tr>
+            <th align="center"> <label>Номер счёта</label> </th>
+            <th align="center"> <label>Фамилия    </label> </th>
+            <th align="center"> <label>Имя        </label> </th>
+            <th align="center"> <label>Отчество   </label> </th>
+            <th align="center"> <label>Пол        </label> </th>
+        </tr>
+        <tr>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="ContractNumber"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="Surname"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="Name"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="Patronymic"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="Sex"></label> </th>
+        </tr>
+        <tr>
+            <th align="center"> <label>Дата рождения</label> </th>
+            <th align="center"> <label>Дата регистрации</label> </th>
+            <th align="center"> <label>Название тарифа</label> </th>
+            <th align="center"> <label>Баланс</label> </th>
+        </tr>
+        <tr>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="DateOfBirth"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="DateOfRegistration"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="NameOfTarif"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="Balance"></label> </th>
+        </tr>
+        <tr>
+            <th align="center"> <label>Количество минут</label> </th>
+            <th align="center"> <label>Количество MB</label> </th>
+            <th align="center"> <label>Количество SMS</label> </th>
+            <th align="center"> <label>Количество MMS</label> </th>
+        </tr>
+        <tr>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="CountOfMinute"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="CountOfMB"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="CountOfSMS"></label> </th>
+            <th align="left" style="border-bottom:1px solid black;"> <label id="CountOfMMS"></label> </th>
+        </tr>
+    </table>
+    <br />
+    <label>Список подключённых услуг</label>
+    <ul id="Service" style="width:400px; list-style-type:none;"></ul>
+
+

@@ -1,0 +1,31 @@
+﻿@model WebApplication.Models.FeedBack.ForFeedback
+<html>
+<head>
+
+</head>
+<body>
+@using (Html.BeginForm("Send", "Feedback", FormMethod.Post))
+{
+    <br />
+    @Html.LabelFor(model=>model.Surname, "Введите вашу фамилию: ")
+    @Html.TextBoxFor(model=>model.Surname)
+    <br /><br />
+    @Html.LabelFor(model=>model.Name, "Введите ваше имя: ")
+    @Html.TextBoxFor(model=>model.Name)
+    <br /><br />
+    @Html.LabelFor(model=>model.Patronymic, "Введите ваше отчество: ")
+    @Html.TextBoxFor(model=>model.Patronymic)
+    <br /><br />
+    @Html.LabelFor(model=>model.Subject, "Тема сообщения: ")
+    @Html.TextBoxFor(model=>model.Subject)
+    <br /><br />
+    @Html.LabelFor(model=>model.Body, "Сообщение:")
+    <br />
+    @Html.TextAreaFor(model=>model.Body)
+    <br /><br />
+    <button type="submit">Отправить</button>
+}
+</body>
+</html>
+
+

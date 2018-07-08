@@ -1,0 +1,23 @@
+﻿@model WebApplication.Models.FolderForTransferMoney.ModelForTransferMoneyToMobileNumber
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm("ResultOfTransferMoneyToMobileNumber", "TransferMoney", FormMethod.Post))
+{
+    <br />
+    @Html.DisplayNameFor(model=>model.MobileNumberAddressee)
+    <br />
+    @Html.TextBoxFor(model => model.MobileNumberAddressee)
+    @Html.ValidationMessageFor(model=>model.MobileNumberAddressee)
+    <br /><br />
+    @Html.DisplayNameFor(model=>model.Sum)
+    <br />
+    @Html.TextBoxFor(model => model.Sum)
+    @Html.ValidationMessageFor(model=>model.Sum)
+    <br /><br />
+    <button type="submit">Перевести деньги</button>
+    <br /><br>
+}
+
+

@@ -1,0 +1,82 @@
+﻿
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.getJSON("/InfoSub/ServiceWhichUserHave/List", function (data) {
+                var items = "--------------------------";
+                $.each(data, function (i, info) {
+                    items += "<option value='" + info.Value + "'>" + info.Text + "</option>";
+                });
+                $("#ConnectedServices").html(items);
+            });
+
+            $.getJSON("/InfoSub/ServiceWhichUserDoNotHave/List", function (data) {
+                var items = "--------------------------";
+                $.each(data, function (i, info) {
+                    items += "<option value='" + info.Value + "'>" + info.Text + "</option>";
+                });
+                $("#DoNotTheConnectedServices").html(items);
+            });
+
+            $("#ConnectedServices").dblclick(function () {
+                $.getJSON("/InfoSub/DescriptionOfService/List/" + $("#ConnectedServices>option:selected").attr("value"), function (data) {
+                    var name, cost, description;
+                    $.each(data, function (i, info) {
+                        name = info.NameOfService;
+                        cost = info.CostPerMonth;
+                        description = info.Description;
+                    });
+                    $("#NameOfService").html(name);
+                    $("#Cost").html(cost);
+                    $("#Description").html(description);
+                });
+            });
+
+            $("#DoNotTheConnectedServices").dblclick(function () {
+                $.getJSON("/InfoSub/DescriptionOfService/List/" + $("#DoNotTheConnectedServices>option:selected").attr("value"), function (data) {
+                    var name, cost, description;
+                    $.each(data, function (i, info) {
+                        name = info.NameOfService;
+                        cost = info.CostPerMonth;
+                        description = info.Description;
+                    });
+                    $("#NameOfService").html(name);
+                    $("#Cost").html(cost);
+                    $("#Description").html(description);
+                });
+            });
+        });
+    </script>
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/StyleSheet.css">
+    <meta title="SelectService" />
+</head>
+<body>
+    <br />
+    @using (Html.BeginForm("AddService", "InfoSubChangeService", FormMethod.Post))
+    {
+        <br /><br />
+        <label for="ConnectedServices">Подключенные услуги:</label>
+        <select id="ConnectedServices" name="ConnectedServices"></select>
+        <button type="submit" name="service" value="DeleteService">Убрать услугу</button>
+        <br /><br />
+        <label for="DoNotTheConnectedServices">Не подключенные услуги:</label>
+        <select id="DoNotTheConnectedServices" name="DoNotTheConnectedServices"></select>
+        <button type="submit" name="service" value="AddService">Добавить услугу</button>
+        <br /><br />
+        <label>Название услуги: </label>
+        <label id="NameOfService"></label>
+        <br />
+        <label>Цена за услугу: </label>
+        <label id="Cost"></label>
+        <br />
+        <textarea id="Description" readonly="readonly"></textarea>
+        <br /><br />
+    }
+</body>
+</html>
+
